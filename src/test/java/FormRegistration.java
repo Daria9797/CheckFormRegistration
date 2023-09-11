@@ -1,10 +1,9 @@
-package com.kolohmatowa;
-
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 
@@ -15,29 +14,31 @@ public class FormRegistration {
         Configuration.baseUrl="https://demoqa.com";
         Configuration.pageLoadStrategy="eager";
         Configuration.browserSize = "1920x1080";
-        Configuration.holdBrowserOpen=false;
+        Configuration.holdBrowserOpen=true;
     }
     @Test
-    void EnterFormTest()
+    void enterFormTest()
     {   open("/automation-practice-form");
         executeJavaScript("$('#fixedban').remove()");
         executeJavaScript("$('footer').remove()");
         $("#firstName").setValue("Daria");
         $("#lastName").setValue("Kuteynikova");
         $("#userEmail").setValue("kolohmatova@yandex.ru");
-        $("[for=gender-radio-2]").click();
+        $("#genterWrapper").$(byText("Female")).click();
         $("#userNumber").setValue("9002172121");
         $("#dateOfBirthInput").click();
         $(".react-datepicker__month-select").selectOption("January");
         $(".react-datepicker__year-select").selectOption("1997");
         $(".react-datepicker__day--006").click();
         $("#subjectsInput").setValue("Maths").pressEnter();
-        $("label[for='hobbies-checkbox-1']").click();
-        $("label[for='hobbies-checkbox-2']").click();
+        $("#hobbiesWrapper").$(byText("Sports")).click();
+        $("#hobbiesWrapper").$(byText("Reading")).click();
         $("#uploadPicture").uploadFromClasspath("cat.jpg");
         $("#currentAddress").setValue("Moskow");
-        $("#react-select-3-input").setValue("Haryana").pressEnter();
-        $("#react-select-4-input").setValue("Karnal").pressEnter();
+        $("#state").click();
+        $("#stateCity-wrapper").$(byText("Haryana")).click();
+        $("#city").click();
+        $("#stateCity-wrapper").$(byText("Karnal")).click();
         $("#submit").click();
 
         $(".table-responsive").shouldHave(text("Daria Kuteynikova"));
